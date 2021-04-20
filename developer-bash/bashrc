@@ -1,0 +1,28 @@
+transfer() {
+ ##   curl --progress-bar --upload-file "$1" https://transfer.sh/$(basename $1) -H "Max-Downloads: 1" -H "Max-Days: 1" | tee /dev/null;
+ _data=$(curl -I --progress-bar --upload-file "$1" https://transfer.sh/$(basename $1) -H "Max-Downloads: 1" -H "Max-Days: 1" | tee /dev/null);
+echo "$_data" | grep -v 'x-made-with\|x-served-by';
+ echo " "
+ echo " "
+}
+passgen() {
+size="$1"
+if [ -z "$1" ]; then
+size=20
+fi
+</dev/urandom tr -dc '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#^&*()[]_\-+=%;~?<>|' | head -c$size; echo ""
+}
+
+ipv6disable() {
+sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1
+sudo sysctl -w net.ipv6.conf.default.disable_ipv6=1
+}
+ipv6enable() {
+sudo sysctl -w net.ipv6.conf.all.disable_ipv6=0
+sudo sysctl -w net.ipv6.conf.default.disable_ipv6=0
+}
+
+webm2gif() {
+ffmpeg -i "$1" -s 800x600 -pix_fmt rgb24 -r 20 -f gif "$2-temp" && gifsicle "$2-temp" --optimize=3 --delay=3 -o "$2"
+rm "$2-temp"
+}
