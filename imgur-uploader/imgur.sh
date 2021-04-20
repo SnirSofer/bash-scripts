@@ -1,4 +1,5 @@
 #!/bin/bash
+# change the api key with your api key to prevent upload limits (https://api.imgur.com/oauth2/addclient)
 imgur_api='191fd32cfe60b39'
 filename=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 13 ; echo '');
 gnome-screenshot -a -f /tmp/"$filename".jpg
